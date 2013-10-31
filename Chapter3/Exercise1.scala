@@ -1,4 +1,5 @@
 import fpinscala.datastructures._
+import fpinscala.datastructures.List._
 
 object Exercise1 {
 
@@ -7,7 +8,7 @@ object Exercise1 {
 			case Cons(x, Cons(2, Cons(4, _))) => x
 			case Nil => 42
 			case Cons(x, Cons(y, Cons(3, Cons(4, _)))) => x + y
-			case Cons(h, t) => h + List.sum(t)
+			case Cons(h, t) => h + sum(t)
 			case _ => 101
 		}
 		x

@@ -6,10 +6,15 @@ package fpinscala.datastructures {
 
 	object List {
 		
+		// Exercise 2
 		def mytail[A](as: List[A]): List[A] = as match {
 			case Nil => Nil
 			case Cons(h, t) => t
 		}
+
+		// Exercise 3
+		def setHead[A](as: List[A], a: A): List[A] =
+			Cons(a, as)
 
 		def sum(ints: List[Int]): Int = ints match {
 			case Nil => 0

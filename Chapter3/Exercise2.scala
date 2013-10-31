@@ -13,5 +13,7 @@ object Exercise2 {
 
 		val list3 = mytail(list2)
 		println(list3)
+
+		println(mytail(Nil))
 	}
 }

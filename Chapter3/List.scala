@@ -25,6 +25,14 @@ package fpinscala.datastructures {
 			}
 		}
 
+		// Exercise 5
+		def mydropWhile[A](as: List[A], p: A => Boolean): List[A] = {
+			as match {
+				case Nil => Nil
+				case Cons(h, t) => if (p(h)) mydropWhile(t, p) else as
+			}
+		}
+
 		def sum(ints: List[Int]): Int = ints match {
 			case Nil => 0
 			case Cons(x, xs) => x + sum(xs)

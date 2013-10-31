@@ -33,6 +33,27 @@ package fpinscala.datastructures {
 			}
 		}
 
+		// Exercise 6
+		def myinit[A](as: List[A]): List[A] = {
+
+			def loop1[A](as1: List[A], as2: List[A]): List[A] = {
+				as1 match {
+					case Nil => as2
+					case Cons(_, Nil) => as2
+					case Cons(h, t) => loop1(t, Cons(h, as2))
+				}
+			}
+
+			def loop2[A](as1: List[A], as2: List[A]): List[A] = {
+				as1 match {
+					case Nil => as2
+					case Cons(h, t) => loop2(t, Cons(h, as2))
+				}
+			}
+
+			loop2(loop1(as, Nil), Nil)
+		}
+
 		def sum(ints: List[Int]): Int = ints match {
 			case Nil => 0
 			case Cons(x, xs) => x + sum(xs)

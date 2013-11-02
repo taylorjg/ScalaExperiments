@@ -28,8 +28,8 @@ package fpinscala.datastructures {
 
 		def filter(f: A => Boolean): Option[A] =
 			this match {
-				case Some(v) => if (f(v)) this else None
-				case None => None
+				case Some(v) if f(v) => this
+				case _ => None
 			}
 	}
 

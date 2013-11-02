@@ -14,12 +14,23 @@ package fpinscala.datastructures {
 				case _ => None
 			}
 
-		def getOrElse[B >: A](default: => B): B = {
+		def getOrElse[B >: A](default: => B): B =
 			this match {
 				case Some(v) => v
 				case _ => default
 			}
-		}
+
+		def orElse[B >: A](ob: => Option[B]): Option[B] =
+			this match {
+				case Some(_) => this
+				case _ => ob
+			}
+
+		def filter(f: A => Boolean): Option[A] =
+			this match {
+				case Some(v) => if (f(v)) this else None
+				case None => None
+			}
 	}
 
 	case class Some[+A](get: A) extends Option[A]

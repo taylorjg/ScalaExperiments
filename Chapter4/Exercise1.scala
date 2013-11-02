@@ -37,5 +37,13 @@ object Exercise1 {
 
 		showResult("getOrElse(Some)", Some(2.0).getOrElse(4.0))
 		showResult("getOrElse(None)", (None:Option[Double]).getOrElse(4.0))
+
+		showResult("orElse(Some)", Some(2.0).orElse(Some(4.0)))
+		showResult("orElse(None)", (None:Option[Double]).orElse(Some(4.0)))
+
+		showResult("filter(Some)", Some(2.0).filter(_ > 1.0))
+		showResult("filter(Some)", Some(2.0).filter(_ > 10.0))
+		showResult("filter(None)", (None:Option[Double]).filter(_ > 1.0))
+		showResult("filter(None)", (None:Option[Double]).filter(_ > 10.0))
 	}
 }

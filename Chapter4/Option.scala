@@ -7,6 +7,12 @@ package fpinscala.datastructures {
 				case Some(v) => Some(f(v))
 				case _ => None
 			}
+
+		def flatMap[B](f: A => Option[B]): Option[B] =
+			this match {
+				case Some(v) => f(v)
+				case _ => None
+			}
 	}
 
 	case class Some[+A](get: A) extends Option[A]

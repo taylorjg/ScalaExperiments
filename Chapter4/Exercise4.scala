@@ -16,10 +16,10 @@ object Exercise4 {
 			p <- pattern(pat)
 		} yield ((s: String) => p.matcher(s).matches)
 
-  	private def bothMatch(pat1: String, pat2: String, s: String): Option[Boolean] =
+	private def bothMatch(pat1: String, pat2: String, s: String): Option[Boolean] =
   		map2(mkMatcher(pat1), mkMatcher(pat2))(_(s) && _(s))
 
-  	private def showResult(pat1: String, pat2: String, s: String): Unit =
+	private def showResult(pat1: String, pat2: String, s: String): Unit =
 		println("bothMatch(\"%s\", \"%s\", \"%s\"): %s".format(pat1, pat2, s, bothMatch(pat1, pat2, s)))
 
 	def main(args: Array[String]): Unit = {

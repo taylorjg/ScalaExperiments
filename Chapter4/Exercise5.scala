@@ -1,4 +1,5 @@
 import fpinscala.datastructures._
+import fpinscala.datastructures.Option._
 
 object Exercise5 {
 
@@ -29,11 +30,17 @@ object Exercise5 {
 			case e: Exception => None
 		}
 
+	// Doesn't short circuit after seeing a None item in as ?
+	private def sequence3[A](as: List[Option[A]]): Option[List[A]] =
+		as.foldRight[Option[List[A]]](Some(Nil))((ao, bso) => map2(ao, bso)(_ :: _))
+
 	private def showResult[A](as: List[Option[A]]): Unit = {
 		val r1 = sequence1(as)
 		println("sequence1(%s): %s".format(as, r1))
 		val r2 = sequence2(as)
 		println("sequence2(%s): %s".format(as, r2))
+		val r3 = sequence3(as)
+		println("sequence3(%s): %s".format(as, r3))
 	}
 
 	def main(args: Array[String]): Unit = {

@@ -35,4 +35,14 @@ package fpinscala.datastructures {
 
 	case class Some[+A](get: A) extends Option[A]
 	case object None extends Option[Nothing]
+
+	object Option {
+		
+		// Exercise 3
+		def map2[A, B, C](ao: Option[A], bo: Option[B])(f: (A, B) => C): Option[C] =
+			for {
+				a <- ao
+				b <- bo
+			} yield f(a, b)
+	}
 }

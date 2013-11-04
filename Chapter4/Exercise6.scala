@@ -17,17 +17,7 @@ object Exercise6 {
  	 */
 
  	private def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] =
- 		a.foldRight[Option[List[B]]](Some(Nil))((a, bso) => {
- 				bso match {
- 					case Some(bs) => {
-		 				f(a) match {
-		 					case Some(b) => Some(b :: bs)
-		 					case _ => None
-		 				}
- 					}
- 					case _ => None
- 				}
- 			})
+ 		a.foldRight[Option[List[B]]](Some(Nil))((a, bso) => map2(f(a), bso)(_ :: _))
 
 	private def parsePatterns(a: List[String]): Option[List[Pattern]] =
 		traverse(a)(pattern(_))

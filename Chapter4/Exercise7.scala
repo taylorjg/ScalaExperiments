@@ -2,9 +2,6 @@ import fpinscala.datastructures._
 
 object Exercise7 {
 
-	private def showResult[A](as: List[Option[A]]): Unit = {
-	}
-
 	def main(args: Array[String]): Unit = {
 
 		val e1 = Right(12)

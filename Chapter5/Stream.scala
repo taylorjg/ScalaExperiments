@@ -37,6 +37,27 @@ package fpinscala.datastructures {
 
 			loop(this, p, Empty)
 		}
+
+		def exists(p: A => Boolean): Boolean =
+			uncons match {
+				case Some(c) => p(c.head) || c.tail.exists(p)
+				case _ => false
+			}
+
+		def foldRight[B](z: => B)(f: (A, => B) => B): B = 
+			uncons match {
+				case Some(c) => f(c.head, c.tail.foldRight(z)(f))
+				case _ => z
+			}
+
+		def exists2(p: A => Boolean): Boolean =
+			foldRight(false)((a, b) => p(a) || b)
+
+		def forAll(p: A => Boolean): Boolean =
+			uncons match {
+				case Some(c) => p(c.head) && c.tail.forAll(p)
+				case _ => true
+			}
 	}
 
 	object Empty extends Stream[Nothing] {

@@ -27,6 +27,16 @@ package fpinscala.datastructures {
 
 			loop(this, n, Empty)
 		}
+
+		def takeWhile(p: A => Boolean): Stream[A] = {
+			def loop(s: Stream[A], p: A => Boolean, s2: Stream[A]): Stream[A] =
+				s.uncons match {
+					case Some(c) if p(c.head) => Stream.cons(c.head, loop(c.tail, p, s2))
+					case _ => s2
+				}
+
+			loop(this, p, Empty)
+		}
 	}
 
 	object Empty extends Stream[Nothing] {

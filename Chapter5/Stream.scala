@@ -14,6 +14,19 @@ package fpinscala.datastructures {
 
 			loop(this, Nil)
 		}
+
+		def take(n: Int): Stream[A] = {
+			def loop(s: Stream[A], remaining: Int, s2: Stream[A]): Stream[A] =
+				if (remaining <= 0) s2
+				else {
+					s.uncons match {
+						case Some(c) => Stream.cons(c.head, loop(c.tail, remaining - 1, s2))
+						case _ => s2
+					}
+				}
+
+			loop(this, n, Empty)
+		}
 	}
 
 	object Empty extends Stream[Nothing] {

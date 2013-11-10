@@ -115,13 +115,41 @@ package fpinscala.datastructures {
 		def from(n: Int): Stream[Int] =
 			cons(n, from(n + 1))
 
-		def fibs(): Stream[Int] = {
+		def fibs: Stream[Int] = {
 			def loop(n: Int, lastButOne: Int, last: Int): Stream[Int] = {
 				val next = if (n < 2) n else lastButOne + last
 				cons(next, loop(n + 1, last, next))
 			}
 
 			loop(0, 0, 1)
+		}
+
+		// Exercise 11
+		def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = {
+			f(z) match {
+				case Some((a, s)) => {
+					cons(a, unfold(s)(f))
+				}
+				case _ => Empty
+			}
+		}
+
+		def ones2: Stream[Int] =
+			unfold(0)(_ => Some((1, 0)))
+
+		def constant2[A](a: A): Stream[A] =
+			unfold(0)(_ => Some((a, 0)))
+
+		def from2(n: Int): Stream[Int] =
+			unfold(n)(s => Some((s, s + 1)))
+
+		def fibs2: Stream[Int] = {
+			val z = (0, 0, 1)
+			unfold(z)(s => {
+				val (n, lastButOne, last) = s
+				val next = if (n < 2) n else lastButOne + last
+				Some((next, (n + 1, last, next)))
+			})
 		}
 	}
 }

@@ -61,6 +61,30 @@ package fpinscala.datastructures {
 
 		def takeWhile2(p: A => Boolean): Stream[A] =
 			foldRight(Empty: Stream[A])((a, foldedTail) => if (p(a)) Stream.cons(a, foldedTail) else Empty)
+
+		def map[B](f: A => B): Stream[B] =
+			foldRight(Empty: Stream[B])((a, foldedTail) => Stream.cons(f(a), foldedTail))
+
+		def filter(p: A => Boolean): Stream[A] =
+			foldRight(Empty: Stream[A])((a, foldedTail) => {
+				if (p(a)) Stream.cons(a, foldedTail)
+				else foldedTail
+			})
+
+		def append[B >: A](b: B): Stream[B] = 
+			foldRight(Stream(b))((a, foldedTail) => Stream.cons(a, foldedTail))
+
+		def flatMap[B](f: A => Stream[B]): Stream[B] = {
+			foldRight(Empty: Stream[B])((a, foldedTail) => {
+				def loop(s: Stream[B], t: Stream[B]): Stream[B] = {
+					s.uncons match {
+						case Some(c) => Stream.cons(c.head, loop(c.tail, t))
+						case _ => t
+					}
+				}
+				loop(f(a), foldedTail)
+			})
+		}
 	}
 
 	object Empty extends Stream[Nothing] {

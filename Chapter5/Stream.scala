@@ -108,5 +108,8 @@ package fpinscala.datastructures {
 
 		def apply[A](as: A*): Stream[A] = 
 			if (as.isEmpty) Empty else cons(as.head, apply(as.tail: _*))
+
+		def constant[A](a: A): Stream[A] =
+			cons(a, constant(a))
 	}
 }

@@ -114,5 +114,7 @@ package fpinscala.datastructures {
 
 		def from(n: Int): Stream[Int] =
 			cons(n, from(n + 1))
+
+		def fibs(): Stream[Int] = ???
 	}
 }

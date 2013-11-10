@@ -115,6 +115,13 @@ package fpinscala.datastructures {
 		def from(n: Int): Stream[Int] =
 			cons(n, from(n + 1))
 
-		def fibs(): Stream[Int] = ???
+		def fibs(): Stream[Int] = {
+			def loop(n: Int, lastButOne: Int, last: Int): Stream[Int] = {
+				val next = if (n < 2) n else lastButOne + last
+				cons(next, loop(n + 1, last, next))
+			}
+
+			loop(0, 0, 1)
+		}
 	}
 }

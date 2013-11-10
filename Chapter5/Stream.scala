@@ -58,6 +58,9 @@ package fpinscala.datastructures {
 				case Some(c) => p(c.head) && c.tail.forAll(p)
 				case _ => true
 			}
+
+		def takeWhile2(p: A => Boolean): Stream[A] =
+			foldRight(Empty: Stream[A])((a, foldedTail) => if (p(a)) Stream.cons(a, foldedTail) else Empty)
 	}
 
 	object Empty extends Stream[Nothing] {

@@ -3,11 +3,6 @@ import fpinscala.datastructures.Stream._
 
 object Exercise4 {
 
-	// private def showResult[A](sIn: Stream[A], p: A => Boolean): Unit = {
-	// 	val sOut = sIn.takeWhile(p)
-	// 	println("%s.takeWhile(): %s".format(sIn.toList, sOut.toList))
-	// }
-
 	def main(args: Array[String]): Unit = {
 
 		val s = Stream(1, 2, 3, 4, 5)

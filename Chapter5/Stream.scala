@@ -93,6 +93,18 @@ package fpinscala.datastructures {
 					case _ => None
 				}
 			})
+
+		def take2(n: Int): Stream[A] = {
+			val z = (this, n)
+			Stream.unfold(z)(state => {
+				val (s, n) = state
+				if (n <= 0) None
+				else s.uncons match {
+					case Some(c) => Some((c.head, (c.tail, n - 1)))
+					case _ => None
+				}
+			})
+		}
 	}
 
 	object Empty extends Stream[Nothing] {

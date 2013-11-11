@@ -85,6 +85,14 @@ package fpinscala.datastructures {
 				loop(f(a), foldedTail)
 			})
 		}
+
+		def map2[B](f: A => B): Stream[B] =
+			Stream.unfold(this)(s => {
+				s.uncons match {
+					case Some(c) => Some(f(c.head), c.tail)
+					case _ => None
+				}
+			})
 	}
 
 	object Empty extends Stream[Nothing] {

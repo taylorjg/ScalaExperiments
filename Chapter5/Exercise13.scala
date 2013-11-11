@@ -13,5 +13,9 @@ object Exercise13 {
 		println("%s.take2(5): %s".format(s1.toList, s1.take2(5).toList))
 
 		println("%s.takeWhile3(_ < 8): %s".format(s1.toList, s1.takeWhile3(_ < 8).toList))
+
+		val s2 = Stream("A", "B", "C", "D", "E", "F")
+		println("%s.zip(%s): %s".format(s1.toList, s2.toList, s1.zip(s2).toList))
+		println("%s.zipAll(%s): %s".format(s1.toList, s2.toList, s1.zipAll(s2).toList))
 	}	
 }

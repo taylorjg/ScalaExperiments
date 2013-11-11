@@ -113,6 +113,39 @@ package fpinscala.datastructures {
 					case _ => None
 				}
 			})
+
+		def zip[B](s2: Stream[B]): Stream[(A, B)] =
+			Stream.unfold((this, s2))(s => {
+				for {
+					c1 <- s._1.uncons
+					c2 <- s._2.uncons
+				} yield ((c1.head, c2.head), (c1.tail, c2.tail))
+			})
+
+		/*
+		s1.uncons match {
+			case Some(c1) =>
+				s2.uncons match {
+					case Some(c2) => Some(((c1.head, c2.head), (c1.tail, c2.tail)))
+					case _ => None
+				}
+			case _ => None
+		}
+		*/
+
+		def zipAll[B](s2: Stream[B]): Stream[(Option[A], Option[B])] = {
+			Stream.unfold((this, s2))(s => {
+				val (s1, s2) = s
+				s1.uncons match {
+					case Some(c1) =>
+						s2.uncons match {
+							case Some(c2) => Some(((Some(c1.head), Some(c2.head)), (c1.tail, c2.tail)))
+							case _ => None
+						}
+					case _ => None
+				}
+			})
+		}
 	}
 
 	object Empty extends Stream[Nothing] {

@@ -105,6 +105,14 @@ package fpinscala.datastructures {
 				}
 			})
 		}
+
+		def takeWhile3(p: A => Boolean): Stream[A] =
+			Stream.unfold(this)(s => {
+				s.uncons match {
+					case Some(c) if p(c.head) => Some((c.head, c.tail))
+					case _ => None
+				}
+			})
 	}
 
 	object Empty extends Stream[Nothing] {

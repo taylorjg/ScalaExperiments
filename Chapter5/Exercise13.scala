@@ -11,5 +11,7 @@ object Exercise13 {
 		println("%s.map2(_ / 2.0): %s".format(s1.toList, s1.map2(_ / 2.0).toList))
 
 		println("%s.take2(5): %s".format(s1.toList, s1.take2(5).toList))
+
+		println("%s.takeWhile3(_ < 8): %s".format(s1.toList, s1.takeWhile3(_ < 8).toList))
 	}	
 }

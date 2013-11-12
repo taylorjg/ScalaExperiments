@@ -45,5 +45,17 @@ package fpinscala.datastructures {
 			val (d3, rng4) = double(rng3)
 			((d1, d2, d3), rng4)
 		}
+
+		def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
+			def loop(count: Int, rng: RNG, ns: List[Int]): (List[Int], RNG) = {
+				if (count <= 0) (Nil, rng)
+				else {
+					val (n, rng2) = rng.nextInt
+					(n :: loop(count - 1, rng2, ns)._1, rng2)
+				}
+			}
+
+			loop(count, rng, Nil)
+		}
 	}
 }

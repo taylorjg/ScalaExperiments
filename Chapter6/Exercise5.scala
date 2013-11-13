@@ -5,7 +5,7 @@ object Exercise5 {
 
 	def main(args: Array[String]): Unit = {
 
-		val rng = Simple(456)
+		val rng = Simple(123)
 
 		val (n1, rng2) = positiveEven(rng)
 		val (n2, rng3) = positiveEven(rng2)
@@ -14,5 +14,8 @@ object Exercise5 {
 		println(n1)
 		println(n2)
 		println(n3)
+
+		println(double(rng))
+		println(doubleV2(rng))
 	}	
 }

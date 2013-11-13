@@ -74,7 +74,28 @@ package fpinscala.datastructures {
 				(f(a), rng2)
 			}
 
+		def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = {
+			rng => {
+				val (a, rng2) = ra(rng)
+				val (b, rng3) = rb(rng2)
+				val c = f(a, b)
+				(c, rng3)
+			}
+		}
+
 		def positiveEven: Rand[Int] =
 			map(positiveInt)(i => i - i % 2)
+
+		def doubleV2(rng: RNG): (Double, RNG) =
+			map(positiveInt)(i => i.toDouble / (Int.MaxValue.toDouble + 1))(rng)
+
+		def both[A, B](ra: Rand[A], rb: Rand[B]): Rand[(A, B)] = 
+			map2(ra, rb)((_, _))
+
+		def randIntDouble: Rand[(Int, Double)] =
+			both(int, double)
+
+		def randDoubleInt: Rand[(Double, Int)] =
+			both(double, int)
 	}
 }

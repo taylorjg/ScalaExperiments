@@ -1,7 +1,24 @@
 package fpinscala.datastructures {
 
 	trait RNG {
+
 		def nextInt: (Int, RNG)
+
+		type Rand[+A] = RNG => (A, RNG)
+
+		val int1: Rand[Int] = (rng: RNG) => rng.nextInt
+		val int2: Rand[Int] = (rng) => rng.nextInt
+		val int3: Rand[Int] = rng => rng.nextInt
+		val int: Rand[Int] = _.nextInt
+
+		def unit[A](a: A): Rand[A] =
+			rng => (a, rng)
+
+		def map[A, B](s: Rand[A])(f: A => B): Rand[B] =
+			rng => {
+				val (a, rng2) = s(rng)
+				(f(a), rng2)
+			}
 	}
 
 	case class Simple(seed: Long) extends RNG {

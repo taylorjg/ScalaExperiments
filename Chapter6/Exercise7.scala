@@ -19,5 +19,10 @@ object Exercise7 {
 		val fs = List(positiveEven, positiveEven, positiveOdd, positiveOdd)
 		val r = sequence(fs)(rng)
 		println(r)
+
+		val ns1 = ints(6)(rng)
+		println(ns1)
+		val ns2 = intsV2(6)(rng)
+		println(ns2)
 	}	
 }

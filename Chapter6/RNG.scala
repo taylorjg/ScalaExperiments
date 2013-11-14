@@ -119,5 +119,10 @@ package fpinscala.datastructures {
 
 		def randDoubleInt: Rand[(Double, Int)] =
 			both(double, int)
+
+		def intsV2(count: Int)(rng: RNG): (List[Int], RNG) = {
+			val fs = List.fill(count)(int)
+			sequence(fs)(rng)
+		}
 	}
 }

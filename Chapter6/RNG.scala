@@ -119,5 +119,20 @@ package fpinscala.datastructures {
 
 		def randDoubleInt: Rand[(Double, Int)] =
 			both(double, int)
+
+		def flatMap[A, B](f: Rand[A])(g: A => Rand[B]): Rand[B] =
+			rng => {
+				val (a, rng2) = f(rng)
+				g(a)(rng2)
+			}
+
+		def positiveLessThan(n: Int): Rand[Int] =
+			flatMap(positiveInt)(i => {
+				rng => {
+					val mod = i % n
+					if (i + (n - 1) - mod > 0) (mod, rng)
+					else positiveLessThan(n)(rng)
+				}
+			})
 	}
 }

@@ -47,15 +47,16 @@ package fpinscala.datastructures {
 		}
 
 		def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
-			def loop(count: Int, rng: RNG, ns: List[Int]): (List[Int], RNG) = {
+			def loop(count: Int, rng: RNG): (List[Int], RNG) = {
 				if (count <= 0) (Nil, rng)
 				else {
 					val (n, rng2) = rng.nextInt
-					(n :: loop(count - 1, rng2, ns)._1, rng2)
+					val t = loop(count - 1, rng2)
+					(n :: t._1, t._2)
 				}
 			}
 
-			loop(count, rng, Nil)
+			loop(count, rng)
 		}
 
 		type Rand[+A] = RNG => (A, RNG)
@@ -74,6 +75,8 @@ package fpinscala.datastructures {
 				(f(a), rng2)
 			}
 
+		// ra = a state action that yields (A, RNG)
+		// rb = a state action that yields (B, RNG)
 		def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = {
 			rng => {
 				val (a, rng2) = ra(rng)
@@ -83,8 +86,27 @@ package fpinscala.datastructures {
 			}
 		}
 
+		def sequence[A](fs: List[Rand[A]]): Rand[List[A]] =
+			rng => {
+				def loop(fs: List[Rand[A]], rng: RNG): (List[A], RNG) = {
+					fs match {
+						case hd::tl => {
+							val (a, rng2) = hd(rng)
+							val t = loop(tl, rng2)
+							(a :: t._1, t._2)
+						}
+						case _ => (Nil, rng)
+					}
+				}
+
+				loop(fs, rng)
+			}
+
 		def positiveEven: Rand[Int] =
 			map(positiveInt)(i => i - i % 2)
+
+		def positiveOdd: Rand[Int] =
+			map(positiveInt)(i => i - i / 2)
 
 		def doubleV2(rng: RNG): (Double, RNG) =
 			map(positiveInt)(i => i.toDouble / (Int.MaxValue.toDouble + 1))(rng)

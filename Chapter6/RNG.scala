@@ -140,6 +140,12 @@ package fpinscala.datastructures {
 				}
 			})
 
+		def mapV2[A, B](ra: Rand[A])(f: A => B): Rand[B] =
+			flatMap(ra)(a => rng => (f(a), rng))
+
+		def map2V2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] =
+			flatMap(ra)(a => flatMap(rb)(b => rng => (f(a, b), rng)))
+
 		def rollDieBad: Rand[Int] = positiveLessThan(6)
 
 		def rollDieGood: Rand[Int] = {

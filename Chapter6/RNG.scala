@@ -139,5 +139,12 @@ package fpinscala.datastructures {
 					else positiveLessThan(n)(rng)
 				}
 			})
+
+		def rollDieBad: Rand[Int] = positiveLessThan(6)
+
+		def rollDieGood: Rand[Int] = {
+			val f = positiveLessThan(6)
+			map(f)(_ + 1)
+		}
 	}
 }

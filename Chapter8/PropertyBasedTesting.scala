@@ -6,23 +6,29 @@ object Prop {
 	type SuccessCount = Int
 	type TestCases = Int
 
-	def randomStream[A](g: Gen[A])(rng: RNG): Stream[A] =
-    	//Stream.unfold(rng)(rng => Some(g.sample.run(rng)))
-    	???
+	// https://gist.github.com/aloiscochard/1334040
+	private def unfold[S, A](s: S)(f: S => Option[(A, S)]): Stream[A] = f(s) match {
+		case Some((a, s2)) => a #:: unfold(s2)(f)
+		case None => Stream.Empty
+	}	
 
-	def forAll[A](as: Gen[A])(f: A => Boolean): Prop = Prop {
-		(n, rng) => randomStream(as)(rng).zip(Stream.from(0)).take(n).map {
+	private def randomStream[A](g: Gen[A])(rng: RNG): Stream[A] = {
+    	// Stream.unfold(rng)(rng => Some(g.sample.run(rng)))
+    	unfold(rng)(rng => Some(g.sample.run(rng)))
+	}
+
+	private def buildMsg[A](a: A, e: Exception): String =
+		s"test case: $a\n" +
+		s"generated an exception: ${e.getMessage}\n" +
+		s"stack trace:\n ${e.getStackTrace.mkString("\n")}"	
+
+	def forAll[A](g: Gen[A])(f: A => Boolean): Prop = Prop {
+		(n, rng) => randomStream(g)(rng).zip(Stream.from(0)).take(n).map {
 			case (a, i) => try {
 				if (f(a)) Passed else Falsified(a.toString, i)
 			} catch { case e: Exception => Falsified(buildMsg(a, e), i) }
 		}.find(_.isFalsified).getOrElse(Passed)
 	}
-
-	def buildMsg[A](a: A, e: Exception): String =
-		s"test case: $a\n" +
-		s"generated an exception: ${e.getMessage}\n" +
-		s"stack trace:\n ${e.getStackTrace.mkString("\n")}"	
-
 }
 
 sealed trait Result {
@@ -147,9 +153,9 @@ object PropertyBasedTesting {
 
 	def main(args: Array[String]): Unit = {
 
-		val rng = Simple(679345999 + 2)
+		val rng = Simple(679345999 + 3)
 
-		val g1 = Gen.choose(5, 10)
+		val g1 = Gen.choose(1, 10)
 		val s1 = g1.sample.run(rng)
 		println(s"s1 = $s1")
 
@@ -176,5 +182,13 @@ object PropertyBasedTesting {
 		val g7 = Gen.weighted((Gen.unit("abc"), 1), (Gen.unit("def"), 3)).listOfN(g1)
 		val s7 = g7.sample.run(rng)
 		println(s"s7 = $s7")
+
+		val prop1 = Prop.forAll(g1) {
+			n => {
+				println(s"n = $n")
+				n >= 1 && n <= 10
+			}
+		}
+		prop1.run(10, rng)
 	}
 }
